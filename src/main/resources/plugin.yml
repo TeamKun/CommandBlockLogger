@@ -1,0 +1,12 @@
+name: CommandBlockLogger
+version: ${project.version}
+main: net.kumc.lab.commandblocklogger.CommandBlockLogger
+authors: [Yanaaaaa,Yanyaa]
+description: コマンド一覧:/cblogger help
+website: https://github.com/TeamKun
+commands:
+  cblogger:
+    permission: CBL
+permissions:
+  CBL:
+    default: op
