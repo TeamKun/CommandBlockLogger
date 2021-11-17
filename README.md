@@ -1,2 +1,29 @@
-# CommandBlockLogger
-You can get the data of the repeat-command-block
+# CommandBlockLogger  
+動作確認済み : paper-1.12.2/paper-1.15.2/paper-1.16.5  
+  
+## このプラグインでできること  
+・リピートコマンドブロックの動作ログ取得  
+・動作ログのCSVへの出力  
+・ゲーム内でのログの検索,表示  
+・指定したリピートコマンドブロックの削除  
+・指定したリピートコマンドブロックへのTP  
+  
+## コマンド  
+/cblogger  
+        　　　　- list  
+          　　　　　・すべてのログの表示  
+        　　　　- search ＜word＞  
+          　　　　　・＜word＞で指定した語句からログのの絞り込み、表示  
+        　　　　- tp ＜ID＞  
+         　　　 　　・＜ID＞で指定したコマンドブロックへのTP  
+        　　　　- delete ＜ID＞  
+         　　　 　　・＜ID＞で指定したコマンドブロックの削除  
+       　　　　 - save  
+         　　　 　　・現在のログをCSVに書き出す  
+        　　　　- help   
+         　　　 　　・コマンド一覧、説明の表示  
+  
+## コンフィグ
+config.yml  
+　　　checkIntervalSec: 300  
+　　　　　　・コマンドブロックが動作しているか確認するインターバル(単位:sec)
