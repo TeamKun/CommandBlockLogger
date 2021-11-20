@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,7 +34,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                         for (int i = 0; i < list.size(); i++) {
                             LogData logData = list.get(i);
                             String loc = logData.getLocation().getWorld().getName() + "/" +logData.getLocation().getX()+ "/" +logData.getLocation().getY()+ "/" +logData.getLocation().getZ();
-                            sender.sendMessage("ID: " + ChatColor.AQUA+logData.getId() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA+logData.getCommand() + ChatColor.WHITE +", Location: " +ChatColor.AQUA+loc);
+                            sender.sendMessage("ID: " + ChatColor.AQUA+logData.getId() +ChatColor.WHITE + ", Player: " + ChatColor.AQUA+logData.getPerson()+ ChatColor.WHITE + ", Command: " + ChatColor.AQUA+logData.getCommand() + ChatColor.WHITE +", Location: " +ChatColor.AQUA+loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }
@@ -60,7 +59,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                 }
             }else if(args.length==2){
                 if(args[0].equals("tp") && args[1].matches("[+-]?\\d*(\\.\\d+)?")){
-                    Location loc = DataList.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
+                    Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
                     //IDのデータ存在するかどうか
                     if(loc==null){
                         sender.sendMessage(ChatColor.RED+"[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
@@ -70,7 +69,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                         sender.sendMessage(ChatColor.GREEN+"[CBLogger]ID="+args[1]+"のコマンドブロックにTPしました.");
                     }
                 }else if(args[0].equals("delete") && args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
-                    Location loc = DataList.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
+                    Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
                     //IDのデータ存在するかどうか
                     if (loc == null) {
                         sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
@@ -85,7 +84,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                     List<Integer> integerList = new ArrayList<>();
 
                     //単語の探索
-                    integerList  = DataList.getTargetString(CommandBlockLogger.allLog,args[1]);
+                    integerList  = DataUtil.getTargetString(CommandBlockLogger.allLog,args[1]);
 
                     //ソート、重複削除
                     integerList = new ArrayList<>(new HashSet<>(integerList));
@@ -104,9 +103,9 @@ public class Commands implements CommandExecutor, TabCompleter {
                         sender.sendMessage(ChatColor.GOLD + "-------------LogData-------------");
                         //取得したリストの表示
                         for (Integer integer : integerList) {
-                            LogData logData = DataList.getTargetData(CommandBlockLogger.allLog, integer);
+                            LogData logData = DataUtil.getTargetData(CommandBlockLogger.allLog, integer);
                             String loc = logData.getLocation().getWorld().getName() + "/" + String.valueOf(logData.getLocation().getX()) + "/" + String.valueOf(logData.getLocation().getY()) + "/" + String.valueOf(logData.getLocation().getZ());
-                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
+                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() +ChatColor.WHITE + ", Player: " + ChatColor.AQUA+logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }

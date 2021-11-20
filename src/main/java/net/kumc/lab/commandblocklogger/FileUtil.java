@@ -25,12 +25,12 @@ public class FileUtil {
                 LogData logData = dataList.get(i);
                 //文字列の抽出
                 String id = String.valueOf(logData.getId());
-                String time = logData.getTime();
+                String person = logData.getPerson();
                 String command = logData.getCommand();
                 Location loc = logData.getLocation();
                 String location = loc.getWorld().getName()+"/"+String.valueOf(loc.getBlockX())+"/"+String.valueOf(loc.getBlockY())+"/"+String.valueOf(loc.getBlockZ());
 
-                bw.write(id +","+ time +","+ command +","+ location);
+                bw.write(id +","+ person +","+ command +","+ location);
                 bw.newLine();
             }
             bw.close();
@@ -62,7 +62,7 @@ public class FileUtil {
                 int count = 1;
 
                 int id = 0;
-                String time = null;
+                String person = null;
                 String command = null;
                 Location location = new Location(Bukkit.getWorld("world"),0,0,0);
 
@@ -74,7 +74,7 @@ public class FileUtil {
                     }
                     //時間の抽出
                     if(count==2){
-                        time = st.nextToken();
+                        person = st.nextToken();
                     }
                     //コマンドの抽出
                     if(count==3){
@@ -108,8 +108,8 @@ public class FileUtil {
                         }
                     }
                     //Logデータ
-                    LogData logData = new LogData(id,time,command,location);
-                    dataList = DataList.setData(dataList,logData);
+                    LogData logData = new LogData(id,person,command,location);
+                    dataList.add(logData);
 
                     count++;
                 }

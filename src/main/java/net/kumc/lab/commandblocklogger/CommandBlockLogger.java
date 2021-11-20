@@ -3,6 +3,7 @@ package net.kumc.lab.commandblocklogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,8 @@ public final class CommandBlockLogger extends JavaPlugin {
     public static File logsDirectory;
     //ログのデータリスト
     public static List<LogData> allLog = new ArrayList<>();
-
+    //ブロックの設置者リスト
+    public static List<PlacerData> placerData = new ArrayList<>();
 
     //実行時処理
     @Override
@@ -27,7 +29,11 @@ public final class CommandBlockLogger extends JavaPlugin {
         saveDefaultConfig();
 
         //Event登録
-        Bukkit.getPluginManager().registerEvents(new EventHandler(),this);
+        new BukkitRunnable() {
+            public void run() {
+                Bukkit.getPluginManager().registerEvents(new EventHandler(), INSTANCE);
+            }
+        }.runTaskLater(INSTANCE,50);
 
         //コマンドの登録
         Objects.requireNonNull(this.getCommand("cblogger")).setExecutor(new Commands());
@@ -53,8 +59,8 @@ public final class CommandBlockLogger extends JavaPlugin {
         //サーバログ
         getServer().getLogger().info(ChatColor.AQUA + "CommandBlockLogger by Yanaaaaa");
 
-        //データの時間チェックのスタート
-        CheckTimeData.checkTimeData();
+        //データのチェックのスタート
+        CheckBlockData.checkData();
     }
 
     @Override
