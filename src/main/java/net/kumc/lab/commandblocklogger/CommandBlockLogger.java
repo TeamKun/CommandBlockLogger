@@ -28,17 +28,6 @@ public final class CommandBlockLogger extends JavaPlugin {
         INSTANCE = this;
         saveDefaultConfig();
 
-        //Event登録
-        new BukkitRunnable() {
-            public void run() {
-                Bukkit.getPluginManager().registerEvents(new EventHandler(), INSTANCE);
-            }
-        }.runTaskLater(INSTANCE,50);
-
-        //コマンドの登録
-        Objects.requireNonNull(this.getCommand("cblogger")).setExecutor(new Commands());
-        Objects.requireNonNull(this.getCommand("cblogger")).setTabCompleter(new Commands());
-
         //ログ保存用のディレクトリの生成
         logsDirectory = new File(getDataFolder(),"logs");
         logsDirectory.mkdirs();
@@ -55,6 +44,13 @@ public final class CommandBlockLogger extends JavaPlugin {
 
         //csvの読み込み
         allLog = FileUtil.readLogFile();
+
+        //Event登録
+        Bukkit.getPluginManager().registerEvents(new EventHandler(), INSTANCE);
+
+        //コマンドの登録
+        Objects.requireNonNull(this.getCommand("cblogger")).setExecutor(new Commands());
+        Objects.requireNonNull(this.getCommand("cblogger")).setTabCompleter(new Commands());
 
         //サーバログ
         getServer().getLogger().info(ChatColor.AQUA + "CommandBlockLogger by Yanaaaaa");

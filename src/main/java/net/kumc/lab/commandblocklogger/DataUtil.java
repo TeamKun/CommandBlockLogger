@@ -47,7 +47,9 @@ public class DataUtil {
         //最新のデータへの置き換え
         for (int i = 0; i < lists.size(); i++) {
             if (lists.get(i).getId() == id) {
-                lists.set(i, logData);
+                if(lists.get(i).getPerson().equals("-NoData-") && !logData.getPerson().equals("-NoData-")) {
+                    lists.set(i, logData);
+                }
                 return lists;
             }
         }
@@ -142,12 +144,12 @@ public class DataUtil {
         for (int i = 0; i < list.size(); i++) {
             Location locData = list.get(i).getLocation();
             if (locData==loc) {
-                    list.set(i, placerData);
-                    return list;
+                list.set(i, placerData);
+                return list;
             }
         }
-            list.add(placerData);
-            return list;
+        list.add(placerData);
+        return list;
     }
 
 }

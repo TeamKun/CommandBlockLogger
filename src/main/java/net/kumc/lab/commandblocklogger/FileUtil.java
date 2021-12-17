@@ -21,16 +21,15 @@ public class FileUtil {
             //ファイルの読み込み
             BufferedWriter bw = new BufferedWriter(new FileWriter(csv, false));
 
-            for(int i = 0; i < dataList.size();i++) {
-                LogData logData = dataList.get(i);
+            for (LogData logData : dataList) {
                 //文字列の抽出
                 String id = String.valueOf(logData.getId());
                 String person = logData.getPerson();
                 String command = logData.getCommand();
                 Location loc = logData.getLocation();
-                String location = loc.getWorld().getName()+"/"+String.valueOf(loc.getBlockX())+"/"+String.valueOf(loc.getBlockY())+"/"+String.valueOf(loc.getBlockZ());
+                String location = loc.getWorld().getName() + "/" + String.valueOf(loc.getBlockX()) + "/" + String.valueOf(loc.getBlockY()) + "/" + String.valueOf(loc.getBlockZ());
 
-                bw.write(id +","+ person +","+ command +","+ location);
+                bw.write(id + "," + person + "," + command + "," + location);
                 bw.newLine();
             }
             bw.close();
@@ -41,6 +40,7 @@ public class FileUtil {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * csvFileからのログの読み込み
@@ -62,8 +62,8 @@ public class FileUtil {
                 int count = 1;
 
                 int id = 0;
-                String person = null;
-                String command = null;
+                String person = "";
+                String command = "";
                 Location location = new Location(Bukkit.getWorld("world"),0,0,0);
 
                 //各要素を文字列から変換
@@ -72,7 +72,7 @@ public class FileUtil {
                     if(count==1){
                         id = Integer.parseInt(st.nextToken());
                     }
-                    //時間の抽出
+                    //人物の抽出
                     if(count==2){
                         person = st.nextToken();
                     }
@@ -107,12 +107,11 @@ public class FileUtil {
                             count2++;
                         }
                     }
-                    //Logデータ
-                    LogData logData = new LogData(id,person,command,location);
-                    dataList.add(logData);
-
                     count++;
                 }
+                //Logデータ
+                LogData logData = new LogData(id,person,command,location);
+                dataList.add(logData);
             }
             br.close();
 

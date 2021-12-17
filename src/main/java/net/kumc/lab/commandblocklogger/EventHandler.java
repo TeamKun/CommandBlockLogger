@@ -24,12 +24,12 @@ public class EventHandler implements Listener {
             if(block.getType()== Material.COMMAND_REPEATING) {
                 //コマンドの抽出
                 String command = event.getCommand();
-                if(command.equals("null")||command==null)
+                if(command.equals(""))
                     return;
 
                 //設置者取得
                 String placer = DataUtil.getPlacer(CommandBlockLogger.placerData,location);
-                if(placer.equals("null")||placer==null)
+                if(placer.equals(""))
                     return;
 
                 //id取得
@@ -48,7 +48,6 @@ public class EventHandler implements Listener {
         Material material = event.getBlock().getType();
         //コマンドブロックが設置された場合のみ実行
         if(material==Material.COMMAND||material==Material.COMMAND_REPEATING||material==Material.COMMAND_CHAIN||material==Material.COMMAND_MINECART){
-            event.getPlayer().sendMessage(event.getBlock().getLocation().toString());
             //設置者のデータに追加
             DataUtil.setPlacerData(CommandBlockLogger.placerData, new PlacerData(event.getPlayer().getName(), event.getBlock().getLocation()));
         }

@@ -17,9 +17,9 @@ public class LogData {
      */
     public LogData(int id , String person , String command , Location location){
         this.id = id;
+        this.person = person;
         this.command = command;
         this.location = location;
-        this.person = person;
     }
 
 
@@ -31,11 +31,12 @@ public class LogData {
         return person;
     }
 
+    public String getCommand() {
+        return command;
+    }
+
     public Location getLocation() {
         return location;
     }
 
-    public String getCommand() {
-        return command;
-    }
 }
