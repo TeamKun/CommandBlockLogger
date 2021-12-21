@@ -34,8 +34,11 @@ public final class CommandBlockLogger extends JavaPlugin {
 
         //log.csvの生成
         try {
-            File file = new File(logsDirectory+"\\log.csv");
-            file.createNewFile();
+            //CSVデータファイル
+            File csv;
+            String separator = System.getProperty("csv.separator");
+            csv = new File(CommandBlockLogger.logsDirectory+ separator +"log.csv");
+            csv.createNewFile();
         } catch (FileNotFoundException ex) {
 
         } catch (IOException ex){

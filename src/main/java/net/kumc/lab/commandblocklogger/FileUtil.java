@@ -17,7 +17,9 @@ public class FileUtil {
     public static void writeLogFile(List<LogData> dataList){
         try {
             //CSVデータファイル
-            File csv = new File(CommandBlockLogger.logsDirectory+"\\log.csv");
+            File csv;
+            String separator = System.getProperty("csv.separator");
+            csv = new File(CommandBlockLogger.logsDirectory+ separator +"log.csv");
             //ファイルの読み込み
             BufferedWriter bw = new BufferedWriter(new FileWriter(csv, false));
 
@@ -50,7 +52,10 @@ public class FileUtil {
         List<LogData> dataList = new ArrayList<>();
         try {
             //CSVデータファイル
-            File csv = new File(CommandBlockLogger.logsDirectory+"\\log.csv");
+            File csv;
+            String separator = System.getProperty("csv.separator");
+            csv = new File(CommandBlockLogger.logsDirectory+ separator +"log.csv");
+
             //ファイルの読み込み
             BufferedReader br = new BufferedReader(new FileReader(csv));
             String line = "";
