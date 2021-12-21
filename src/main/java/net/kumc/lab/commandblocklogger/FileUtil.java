@@ -18,8 +18,12 @@ public class FileUtil {
         try {
             //CSVデータファイル
             File csv;
-            String separator = System.getProperty("csv.separator");
-            csv = new File(CommandBlockLogger.logsDirectory+ separator +"log.csv");
+            String osname = System.getProperty("os.name");
+            if(osname.contains("Windows")){
+                csv = new File(CommandBlockLogger.logsDirectory+"\\log.csv");
+            } else{
+                csv = new File(CommandBlockLogger.logsDirectory+"/log.csv");
+            }
             //ファイルの読み込み
             BufferedWriter bw = new BufferedWriter(new FileWriter(csv, false));
 
@@ -53,8 +57,12 @@ public class FileUtil {
         try {
             //CSVデータファイル
             File csv;
-            String separator = System.getProperty("csv.separator");
-            csv = new File(CommandBlockLogger.logsDirectory+ separator +"log.csv");
+            String osname = System.getProperty("os.name");
+            if(osname.contains("Windows")){
+                csv = new File(CommandBlockLogger.logsDirectory+"\\log.csv");
+            } else{
+                csv = new File(CommandBlockLogger.logsDirectory+"/log.csv");
+            }
 
             //ファイルの読み込み
             BufferedReader br = new BufferedReader(new FileReader(csv));
