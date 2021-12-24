@@ -59,23 +59,34 @@ public class Commands implements CommandExecutor, TabCompleter {
                 }
             }else if(args.length==2){
                 if(args[0].equals("tp") && args[1].matches("[+-]?\\d*(\\.\\d+)?")){
-                    Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
-                    //IDのデータ存在するかどうか
-                    if(loc==null){
-                        sender.sendMessage(ChatColor.RED+"[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
-                    }else{
-                        Player p = (Player) sender;
-                        p.teleport(loc);
-                        sender.sendMessage(ChatColor.GREEN+"[CBLogger]ID="+args[1]+"のコマンドブロックにTPしました.");
+                    int id = Integer.parseInt(args[1]);
+                    if(DataUtil.getTargetData(CommandBlockLogger.allLog,id)==null){
+                        sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
+                    }else {
+                        Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog, Integer.parseInt(args[1])).getLocation();
+                        //IDのデータ存在するかどうか
+                        if (loc == null) {
+                            sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
+                        } else {
+                            Player p = (Player) sender;
+                            p.teleport(loc);
+                            sender.sendMessage(ChatColor.GREEN + "[CBLogger]ID=" + args[1] + "のコマンドブロックにTPしました.");
+                        }
                     }
                 }else if(args[0].equals("delete") && args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
-                    Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog,Integer.parseInt(args[1])).getLocation();
-                    //IDのデータ存在するかどうか
-                    if (loc == null) {
+                    int id = Integer.parseInt(args[1]);
+                    if(DataUtil.getTargetData(CommandBlockLogger.allLog,id)==null){
                         sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
-                    } else {
-                        loc.getBlock().setType(Material.AIR);
-                        sender.sendMessage(ChatColor.GREEN + "[CBLogger]ID=" + args[1] + "のコマンドブロックを削除しました.");
+                    }else {
+                        Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog, Integer.parseInt(args[1])).getLocation();
+                        //IDのデータ存在するかどうか
+                        if (loc == null) {
+                            sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
+                        } else {
+                            loc.getBlock().setType(Material.AIR);
+                            DataUtil.setCheckedData(CommandBlockLogger.allLog, CommandBlockLogger.placerData);
+                            sender.sendMessage(ChatColor.GREEN + "[CBLogger]ID=" + args[1] + "のコマンドブロックを削除しました.");
+                        }
                     }
                 }else if(args[0].equals("search")){
                     String str = "";

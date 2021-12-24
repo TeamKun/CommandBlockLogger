@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
@@ -53,6 +54,15 @@ public class EventHandler implements Listener {
         }
     }
 
+    @org.bukkit.event.EventHandler
+    public void onBlockBlake(BlockBreakEvent event) {
+        Material material = event.getBlock().getType();
+        //コマンドブロックが破壊された場合のみ実行
+        if(material==Material.COMMAND||material==Material.COMMAND_REPEATING||material==Material.COMMAND_CHAIN||material==Material.COMMAND_MINECART){
+            //ブロックのデータチェック
+            DataUtil.setCheckedData(CommandBlockLogger.allLog,CommandBlockLogger.placerData);
+        }
+    }
 
 }
 
