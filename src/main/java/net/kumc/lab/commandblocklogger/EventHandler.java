@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class EventHandler implements Listener {
 
@@ -60,7 +61,11 @@ public class EventHandler implements Listener {
         //コマンドブロックが破壊された場合のみ実行
         if(material==Material.COMMAND||material==Material.COMMAND_REPEATING||material==Material.COMMAND_CHAIN||material==Material.COMMAND_MINECART){
             //ブロックのデータチェック
-            DataUtil.setCheckedData(CommandBlockLogger.allLog,CommandBlockLogger.placerData);
+            new BukkitRunnable() {
+                public void run() {
+                    DataUtil.setCheckedData(CommandBlockLogger.allLog,CommandBlockLogger.placerData);
+                }
+            }.runTaskLater(CommandBlockLogger.INSTANCE,20);
         }
     }
 
