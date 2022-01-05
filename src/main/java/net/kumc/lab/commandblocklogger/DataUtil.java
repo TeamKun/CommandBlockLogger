@@ -47,7 +47,7 @@ public class DataUtil {
         //最新のデータへの置き換え
         for (int i = 0; i < lists.size(); i++) {
             if (lists.get(i).getId() == id) {
-                if(lists.get(i).getPerson().equals("-NoData-") && !logData.getPerson().equals("-NoData-")) {
+                if(!(!lists.get(i).getPerson().equals("-NoData-") && logData.getPerson().equals("-NoData-"))) {
                     lists.set(i, logData);
                 }
                 return lists;
