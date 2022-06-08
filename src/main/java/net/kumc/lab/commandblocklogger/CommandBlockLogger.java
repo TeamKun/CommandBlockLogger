@@ -26,7 +26,6 @@ public final class CommandBlockLogger extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-        saveDefaultConfig();
 
         //ログ保存用のディレクトリの生成
         logsDirectory = new File(getDataFolder(),"logs");

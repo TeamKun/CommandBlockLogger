@@ -23,11 +23,10 @@ public class CheckBlockData {
             CommandBlockLogger.allLog.remove(num);
         }
 
-        int time = CommandBlockLogger.INSTANCE.getConfig().getInt("checkIntervalSec") * 20;
         new BukkitRunnable() {
             public void run() {
                     DataUtil.setCheckedData(CommandBlockLogger.allLog,CommandBlockLogger.placerData);
             }
-        }.runTaskTimer(CommandBlockLogger.INSTANCE,time,time);
+        }.runTaskTimer(CommandBlockLogger.INSTANCE,0,200);
     }
 }
