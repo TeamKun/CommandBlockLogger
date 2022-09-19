@@ -9,7 +9,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,50 +22,50 @@ public class Commands implements CommandExecutor, TabCompleter {
      * Command
      */
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-        if(cmd.getName().equals("cblogger")) {
-            if(args.length==1){
-                if(args[0].equals("save")){
+        if (cmd.getName().equals("cblogger")) {
+            if (args.length == 1) {
+                if (args[0].equals("save")) {
                     FileUtil.writeLogFile(CommandBlockLogger.allLog);
                     sender.sendMessage(ChatColor.GREEN + "[CBLogger]log.csvにデータの保存処理を行いました.(保存されていない場合はコンソールを確認してください)");
-                }else if(args[0].equals("list")){
+                } else if (args[0].equals("list")) {
                     List<LogData> list = CommandBlockLogger.allLog;
-                    sender.sendMessage(ChatColor.GREEN + "[CBLogger]検索結果:"+list.size()+"件");
-                    if(list.size()!=0) {
+                    sender.sendMessage(ChatColor.GREEN + "[CBLogger]検索結果:" + list.size() + "件");
+                    if (list.size() != 0) {
                         sender.sendMessage(ChatColor.GREEN + "[CBLogger]一致したコマンドブロックのデータを表示します.");
                         sender.sendMessage(ChatColor.GOLD + "-------------LogData-------------");
                         //取得したリストの表示
                         for (int i = 0; i < list.size(); i++) {
                             LogData logData = list.get(i);
-                            String loc = logData.getLocation().getWorld().getName() + "/" +logData.getLocation().getX()+ "/" +logData.getLocation().getY()+ "/" +logData.getLocation().getZ();
-                            sender.sendMessage("ID: " + ChatColor.AQUA+logData.getId() +ChatColor.WHITE + ", Player: " + ChatColor.AQUA+logData.getPerson()+ ChatColor.WHITE + ", Command: " + ChatColor.AQUA+logData.getCommand() + ChatColor.WHITE +", Location: " +ChatColor.AQUA+loc);
+                            String loc = logData.getLocation().getWorld().getName() + "/" + logData.getLocation().getX() + "/" + logData.getLocation().getY() + "/" + logData.getLocation().getZ();
+                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE + ", Player: " + ChatColor.AQUA + logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }
 
-                }else if(args[0].equals("help")){
-                    sender.sendMessage(ChatColor.GREEN+"-----------------コマンド一覧-----------------");
-                    sender.sendMessage(ChatColor.GOLD+"・直近に動作した全リピートコマンドブロックの表示");
+                } else if (args[0].equals("help")) {
+                    sender.sendMessage(ChatColor.GREEN + "-----------------コマンド一覧-----------------");
+                    sender.sendMessage(ChatColor.GOLD + "・直近に動作した全リピートコマンドブロックの表示");
                     sender.sendMessage("/cblogger list");
-                    sender.sendMessage(ChatColor.GOLD+"・現在のデータをlog.csvに書き出し");
+                    sender.sendMessage(ChatColor.GOLD + "・現在のデータをlog.csvに書き出し");
                     sender.sendMessage("/cblogger save");
-                    sender.sendMessage(ChatColor.GOLD+"・コマンド一覧の表示");
+                    sender.sendMessage(ChatColor.GOLD + "・コマンド一覧の表示");
                     sender.sendMessage("/cblogger help");
-                    sender.sendMessage(ChatColor.GOLD+"・指定したコマンドブロックにTP(IDはlist・searchコマンドから確認してください)");
+                    sender.sendMessage(ChatColor.GOLD + "・指定したコマンドブロックにTP(IDはlist・searchコマンドから確認してください)");
                     sender.sendMessage("/cblogger tp <ID>");
-                    sender.sendMessage(ChatColor.GOLD+"・指定したコマンドブロックを削除(IDはlist・searchコマンドから確認してください)");
+                    sender.sendMessage(ChatColor.GOLD + "・指定したコマンドブロックを削除(IDはlist・searchコマンドから確認してください)");
                     sender.sendMessage("/cblogger delete <ID>");
-                    sender.sendMessage(ChatColor.GOLD+"・指定したワードから、一致したリピートコマンドブロックの表示(like検索可能)");
+                    sender.sendMessage(ChatColor.GOLD + "・指定したワードから、一致したリピートコマンドブロックの表示(like検索可能)");
                     sender.sendMessage("/cblogger search　<検索単語>");
-                    sender.sendMessage(ChatColor.GREEN+"--------------------------------------------");
-                }else{
+                    sender.sendMessage(ChatColor.GREEN + "--------------------------------------------");
+                } else {
                     sender.sendMessage(ChatColor.RED + "[CBLogger]コマンドが異なります、形式を確認してください. コマンド一覧:/cblogger help");
                 }
-            }else if(args.length==2){
-                if(args[0].equals("tp") && args[1].matches("[+-]?\\d*(\\.\\d+)?")){
+            } else if (args.length == 2) {
+                if (args[0].equals("tp") && args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
                     int id = Integer.parseInt(args[1]);
-                    if(DataUtil.getTargetData(CommandBlockLogger.allLog,id)==null){
+                    if (DataUtil.getTargetData(CommandBlockLogger.allLog, id) == null) {
                         sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
-                    }else {
+                    } else {
                         Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog, Integer.parseInt(args[1])).getLocation();
                         //IDのデータ存在するかどうか
                         if (loc == null) {
@@ -73,11 +76,11 @@ public class Commands implements CommandExecutor, TabCompleter {
                             sender.sendMessage(ChatColor.GREEN + "[CBLogger]ID=" + args[1] + "のコマンドブロックにTPしました.");
                         }
                     }
-                }else if(args[0].equals("delete") && args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
+                } else if (args[0].equals("delete") && args[1].matches("[+-]?\\d*(\\.\\d+)?")) {
                     int id = Integer.parseInt(args[1]);
-                    if(DataUtil.getTargetData(CommandBlockLogger.allLog,id)==null){
+                    if (DataUtil.getTargetData(CommandBlockLogger.allLog, id) == null) {
                         sender.sendMessage(ChatColor.RED + "[CBLogger]そのIDのデータ,コマンドブロックは存在しません.");
-                    }else {
+                    } else {
                         Location loc = DataUtil.getTargetData(CommandBlockLogger.allLog, Integer.parseInt(args[1])).getLocation();
                         //IDのデータ存在するかどうか
                         if (loc == null) {
@@ -88,14 +91,14 @@ public class Commands implements CommandExecutor, TabCompleter {
                             sender.sendMessage(ChatColor.GREEN + "[CBLogger]ID=" + args[1] + "のコマンドブロックを削除しました.");
                         }
                     }
-                }else if(args[0].equals("search")){
+                } else if (args[0].equals("search")) {
                     String str = "";
 
                     //候補IDのリスト
                     List<Integer> integerList = new ArrayList<>();
 
                     //単語の探索
-                    integerList  = DataUtil.getTargetString(CommandBlockLogger.allLog,args[1]);
+                    integerList = DataUtil.getTargetString(CommandBlockLogger.allLog, args[1]);
 
                     //ソート、重複削除
                     integerList = new ArrayList<>(new HashSet<>(integerList));
@@ -108,23 +111,23 @@ public class Commands implements CommandExecutor, TabCompleter {
                         }
                     });
 
-                    sender.sendMessage(ChatColor.GREEN + "[CBLogger]検索結果:"+integerList.size()+"件");
-                    if(integerList.size()!=0) {
+                    sender.sendMessage(ChatColor.GREEN + "[CBLogger]検索結果:" + integerList.size() + "件");
+                    if (integerList.size() != 0) {
                         sender.sendMessage(ChatColor.GREEN + "[CBLogger]一致したコマンドブロックのデータを表示します.");
                         sender.sendMessage(ChatColor.GOLD + "-------------LogData-------------");
                         //取得したリストの表示
                         for (Integer integer : integerList) {
                             LogData logData = DataUtil.getTargetData(CommandBlockLogger.allLog, integer);
                             String loc = logData.getLocation().getWorld().getName() + "/" + String.valueOf(logData.getLocation().getX()) + "/" + String.valueOf(logData.getLocation().getY()) + "/" + String.valueOf(logData.getLocation().getZ());
-                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() +ChatColor.WHITE + ", Player: " + ChatColor.AQUA+logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
+                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE + ", Player: " + ChatColor.AQUA + logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }
 
-                }else{
+                } else {
                     sender.sendMessage(ChatColor.RED + "[CBLogger]コマンドが異なります、形式を確認してください. コマンド一覧:/cblogger help");
                 }
-            }else{
+            } else {
                 sender.sendMessage(ChatColor.RED + "[CBLogger]コマンドが異なります、形式を確認してください. コマンド一覧:/cblogger help");
             }
         }
@@ -136,21 +139,21 @@ public class Commands implements CommandExecutor, TabCompleter {
      * Tab
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args){
-        if(cmd.getName().equals("cblogger")){
-            if(args.length==1){
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equals("cblogger")) {
+            if (args.length == 1) {
                 return (sender.hasPermission("cblogger")
-                        ? Stream.of("save","list","search","tp","delete","help")
-                        : Stream.of("save","list","search","tp","delete","help"))
+                        ? Stream.of("save", "list", "search", "tp", "delete", "help")
+                        : Stream.of("save", "list", "search", "tp", "delete", "help"))
                         .filter(e -> e.startsWith(args[0])).collect(Collectors.toList());
             }
-            if(args.length==2&&(args[0].equals("tp")||args[0].equals("delete"))){
+            if (args.length == 2 && (args[0].equals("tp") || args[0].equals("delete"))) {
                 return (sender.hasPermission("cblogger")
                         ? Stream.of("<id>")
                         : Stream.of("<id>"))
                         .filter(e -> e.startsWith(args[1])).collect(Collectors.toList());
             }
-            if(args.length==2&&args[0].equals("search")){
+            if (args.length == 2 && args[0].equals("search")) {
                 return (sender.hasPermission("cblogger")
                         ? Stream.of("<検索単語>")
                         : Stream.of("<検索単語>"))
