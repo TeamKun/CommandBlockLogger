@@ -1,12 +1,22 @@
 package net.kumc.lab.commandblocklogger;
 
+import com.opencsv.bean.CsvBindByPosition;
+import lombok.Getter;
 import org.bukkit.Location;
 
 public class LogData {
 
+    @Getter
+    @CsvBindByPosition(position = 0)
     private int id;
+    @Getter
+    @CsvBindByPosition(position = 1)
     private String command;
+    @Getter
+    @CsvBindByPosition(position = 2)
     private Location location;
+    @Getter
+    @CsvBindByPosition(position = 3)
     private String person;
 
     /**
@@ -21,22 +31,4 @@ public class LogData {
         this.command = command;
         this.location = location;
     }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public String getPerson() {
-        return person;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
 }
