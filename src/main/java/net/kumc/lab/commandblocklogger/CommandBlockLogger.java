@@ -3,7 +3,6 @@ package net.kumc.lab.commandblocklogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +27,7 @@ public final class CommandBlockLogger extends JavaPlugin {
         INSTANCE = this;
 
         //ログ保存用のディレクトリの生成
-        logsDirectory = new File(getDataFolder(),"logs");
+        logsDirectory = new File(getDataFolder(), "logs");
         logsDirectory.mkdirs();
 
         //log.csvの生成
@@ -36,15 +35,15 @@ public final class CommandBlockLogger extends JavaPlugin {
             //CSVデータファイル
             File csv;
             String osname = System.getProperty("os.name");
-            if(osname.contains("Windows")){
-                csv = new File(CommandBlockLogger.logsDirectory+"\\log.csv");
-            } else{
-                csv = new File(CommandBlockLogger.logsDirectory+"/log.csv");
+            if (osname.contains("Windows")) {
+                csv = new File(CommandBlockLogger.logsDirectory + "\\log.csv");
+            } else {
+                csv = new File(CommandBlockLogger.logsDirectory + "/log.csv");
             }
             csv.createNewFile();
         } catch (FileNotFoundException ex) {
 
-        } catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 

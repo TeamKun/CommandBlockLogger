@@ -7,7 +7,7 @@ public class PlacerData {
     private String placer;
     private Location location;
 
-    public PlacerData(String placer,Location location){
+    public PlacerData(String placer, Location location) {
         this.placer = placer;
         this.location = location;
     }

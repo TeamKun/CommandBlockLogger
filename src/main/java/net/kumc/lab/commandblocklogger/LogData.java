@@ -10,12 +10,12 @@ public class LogData {
     private String person;
 
     /**
-     * @param id ID
-     * @param person Date and time of execution
-     * @param command Command String
+     * @param id       ID
+     * @param person   Date and time of execution
+     * @param command  Command String
      * @param location Command String
      */
-    public LogData(int id , String person , String command , Location location){
+    public LogData(int id, String person, String command, Location location) {
         this.id = id;
         this.person = person;
         this.command = command;
@@ -27,7 +27,7 @@ public class LogData {
         return id;
     }
 
-    public String getPerson(){
+    public String getPerson() {
         return person;
     }
 
