@@ -3,7 +3,6 @@ package net.kumc.lab.commandblocklogger;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import org.bukkit.Location;
 
 import java.io.*;
 import java.util.List;
