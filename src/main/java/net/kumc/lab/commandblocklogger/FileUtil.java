@@ -17,7 +17,7 @@ public class FileUtil {
      */
     public static void writeLogFile(List<LogData> dataList) {
         try {
-            String file = CommandBlockLogger.logsDirectory + File.pathSeparator + "log.csv";
+            String file = CommandBlockLogger.logsDirectory + File.separator + "log.csv";
             Writer writer = new FileWriter(file);
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
             beanToCsv.write(dataList);
@@ -36,7 +36,7 @@ public class FileUtil {
     public static List<LogData> readLogFile() {
         List<LogData> dataList = null;
         try {
-            String file = CommandBlockLogger.logsDirectory + File.pathSeparator + "log.csv";
+            String file = CommandBlockLogger.logsDirectory + File.separator + "log.csv";
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 
             CsvToBeanBuilder<LogData> builder = new CsvToBeanBuilder<>(br);
