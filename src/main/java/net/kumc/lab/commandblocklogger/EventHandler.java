@@ -38,9 +38,8 @@ public class EventHandler implements Listener {
                 int id = DataUtil.getAvailableID(CommandBlockLogger.allLog, location);
 
                 //logへの追加
-                LogData logData = new LogData(id, placer, command, location);
+                LogData logData = new LogData(id, placer, command, location.getWorld().getName(), location.getX(), location.getY(), location.getZ());
                 DataUtil.setData(CommandBlockLogger.allLog, logData);
-
             }
         }
     }
