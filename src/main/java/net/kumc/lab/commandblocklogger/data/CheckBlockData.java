@@ -31,6 +31,6 @@ public class CheckBlockData {
                 DataUtil.setCheckedData(CommandBlockLogger.allLog, CommandBlockLogger.placerData);
                 EventHandler.blockList = new ArrayList<>();
             }
-        }.runTaskTimer(CommandBlockLogger.INSTANCE, 600, 6000);
+        }.runTaskTimer(CommandBlockLogger.INSTANCE, 0, 6000);
     }
 }
