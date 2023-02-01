@@ -37,7 +37,10 @@ public class CommandListener implements CommandExecutor {
                         for (int i = 0; i < list.size(); i++) {
                             LogData logData = list.get(i);
                             String loc = logData.getLocation().getWorld().getName() + "/" + logData.getLocation().getX() + "/" + logData.getLocation().getY() + "/" + logData.getLocation().getZ();
-                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE + ", Player: " + ChatColor.AQUA + logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
+                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE
+                                    + ", Player: " + ChatColor.GREEN + logData.getPerson() + ChatColor.WHITE
+                                    + ", Command: " + ChatColor.BLUE + logData.getCommand() + ChatColor.WHITE
+                                    + ", Location: " + ChatColor.DARK_GREEN + loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }
@@ -119,7 +122,10 @@ public class CommandListener implements CommandExecutor {
                         for (Integer integer : integerList) {
                             LogData logData = DataUtil.getTargetData(CommandBlockLogger.allLog, integer);
                             String loc = logData.getLocation().getWorld().getName() + "/" + String.valueOf(logData.getLocation().getX()) + "/" + String.valueOf(logData.getLocation().getY()) + "/" + String.valueOf(logData.getLocation().getZ());
-                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE + ", Player: " + ChatColor.AQUA + logData.getPerson() + ChatColor.WHITE + ", Command: " + ChatColor.AQUA + logData.getCommand() + ChatColor.WHITE + ", Location: " + ChatColor.AQUA + loc);
+                            sender.sendMessage("ID: " + ChatColor.AQUA + logData.getId() + ChatColor.WHITE
+                                    + ", Player: " + ChatColor.GREEN + logData.getPerson() + ChatColor.WHITE
+                                    + ", Command: " + ChatColor.BLUE + logData.getCommand() + ChatColor.WHITE
+                                    + ", Location: " + ChatColor.DARK_GREEN + loc);
                         }
                         sender.sendMessage(ChatColor.GOLD + "---------------------------------");
                     }

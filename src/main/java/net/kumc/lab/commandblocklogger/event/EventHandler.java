@@ -20,6 +20,7 @@ import java.util.List;
 public class EventHandler implements Listener {
     public static List<Block> blockList = new ArrayList<>();
     //コマンドブロック設置時
+    @org.bukkit.event.EventHandler
     public void onPlaceCommandBlock(BlockPlaceEvent event){
         //コマンドブロックでなければreturn
         Material material = event.getBlock().getType();
@@ -29,6 +30,7 @@ public class EventHandler implements Listener {
     }
 
     //コマンドブロック破壊時
+    @org.bukkit.event.EventHandler
     public void onBreakCommandBlock(BlockBreakEvent event){
         //コマンドブロックでなければreturn
         Material material = event.getBlock().getType();
@@ -43,6 +45,7 @@ public class EventHandler implements Listener {
     }
 
     //コマンドブロック実行時
+    @org.bukkit.event.EventHandler
     public void onWorksCommandBlock(ServerCommandEvent event){
         if (event.getSender() instanceof BlockCommandSender) {
             //Locationの抽出
