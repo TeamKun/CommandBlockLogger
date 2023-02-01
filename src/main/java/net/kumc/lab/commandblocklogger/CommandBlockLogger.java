@@ -1,7 +1,15 @@
 package net.kumc.lab.commandblocklogger;
 
+import net.kumc.lab.commandblocklogger.command.CommandListener;
+import net.kumc.lab.commandblocklogger.command.TabCompleter;
+import net.kumc.lab.commandblocklogger.data.CheckBlockData;
+import net.kumc.lab.commandblocklogger.data.LogData;
+import net.kumc.lab.commandblocklogger.data.PlacerData;
+import net.kumc.lab.commandblocklogger.event.EventHandler;
+import net.kumc.lab.commandblocklogger.file.CSVUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -19,10 +27,17 @@ public final class CommandBlockLogger extends JavaPlugin {
     //ブロックの設置者リスト
     public static List<PlacerData> placerData = new ArrayList<>();
 
+    public static List<Material> materials = new ArrayList<>();
+
     //実行時処理
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        //コマンドブロック
+        materials.add(Material.COMMAND);
+        materials.add(Material.COMMAND_CHAIN);
+        materials.add(Material.COMMAND_REPEATING);
 
         //ログ保存用のディレクトリの生成
         logsDirectory = new File(getDataFolder(), "logs");
@@ -37,17 +52,17 @@ public final class CommandBlockLogger extends JavaPlugin {
         }
 
         //csvの読み込み
-        allLog = FileUtil.readLogFile();
+        allLog = CSVUtil.readLogFile();
 
         //Event登録
         Bukkit.getPluginManager().registerEvents(new EventHandler(), INSTANCE);
 
         //コマンドの登録
-        Objects.requireNonNull(this.getCommand("cblogger")).setExecutor(new Commands());
-        Objects.requireNonNull(this.getCommand("cblogger")).setTabCompleter(new Commands());
+        Objects.requireNonNull(this.getCommand("cblogger")).setExecutor(new CommandListener());
+        Objects.requireNonNull(this.getCommand("cblogger")).setTabCompleter(new TabCompleter());
 
         //サーバログ
-        getServer().getLogger().info(ChatColor.AQUA + "CommandBlockLogger by Yanaaaaa");
+        getServer().getLogger().info(ChatColor.AQUA + "CommandBlockLogger by KUNLab");
 
         //データのチェックのスタート
         CheckBlockData.checkData();
@@ -56,6 +71,6 @@ public final class CommandBlockLogger extends JavaPlugin {
     @Override
     public void onDisable() {
         //csvの書き込み
-        FileUtil.writeLogFile(allLog);
+        CSVUtil.writeLogFile(allLog);
     }
 }

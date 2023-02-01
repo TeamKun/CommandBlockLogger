@@ -1,4 +1,4 @@
-package net.kumc.lab.commandblocklogger;
+package net.kumc.lab.commandblocklogger.data;
 
 
 import lombok.Getter;

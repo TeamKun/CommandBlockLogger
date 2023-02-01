@@ -1,14 +1,15 @@
-package net.kumc.lab.commandblocklogger;
+package net.kumc.lab.commandblocklogger.file;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import net.kumc.lab.commandblocklogger.CommandBlockLogger;
+import net.kumc.lab.commandblocklogger.data.LogData;
 
 import java.io.*;
 import java.util.List;
 
-public class FileUtil {
-
+public class CSVUtil {
     /**
      * csvFileへのログの書き込み
      *

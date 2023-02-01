@@ -1,4 +1,4 @@
-package net.kumc.lab.commandblocklogger;
+package net.kumc.lab.commandblocklogger.data;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -7,6 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataUtil {
+
+    /**
+     * データ上に同じ座標のコマンドブロックのデータがあるかどうか,ある場合はそのIDを返す/ない場合は新しいIDを返す
+     *
+     * @param loc 　CommandBlock Location
+     * @return ID
+     */
+    public static boolean onCheckBlock(List<LogData> lists, Location loc, String cmd) {
+        //データ上に同じ座標のコマンドブロックに同じコマンドデータがあるかどうか,ある場合はそのtrueを返す
+        for (int i = 0; i < lists.size(); i++) {
+            Location locData = lists.get(i).getLocation();
+            if (locData.getWorld().getName().equals(loc.getWorld().getName())) {
+                if (locData.getX() == loc.getX() && locData.getY() == loc.getY() && locData.getZ() == loc.getZ()) {
+                    if(lists.get(i).getCommand().equals(cmd))return true;
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * データ上に同じ座標のコマンドブロックのデータがあるかどうか,ある場合はそのIDを返す/ない場合は新しいIDを返す

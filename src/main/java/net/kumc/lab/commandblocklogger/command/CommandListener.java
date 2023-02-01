@@ -1,31 +1,31 @@
-package net.kumc.lab.commandblocklogger;
+package net.kumc.lab.commandblocklogger.command;
 
+import net.kumc.lab.commandblocklogger.CommandBlockLogger;
+import net.kumc.lab.commandblocklogger.data.DataUtil;
+import net.kumc.lab.commandblocklogger.data.LogData;
+import net.kumc.lab.commandblocklogger.file.CSVUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class Commands implements CommandExecutor, TabCompleter {
-
+public class CommandListener implements CommandExecutor {
     /**
      * Command
      */
+    @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
         if (cmd.getName().equals("cblogger")) {
             if (args.length == 1) {
                 if (args[0].equals("save")) {
-                    FileUtil.writeLogFile(CommandBlockLogger.allLog);
+                    CSVUtil.writeLogFile(CommandBlockLogger.allLog);
                     sender.sendMessage(ChatColor.GREEN + "[CBLogger]log.csvにデータの保存処理を行いました.(保存されていない場合はコンソールを確認してください)");
                 } else if (args[0].equals("list")) {
                     List<LogData> list = CommandBlockLogger.allLog;
@@ -133,36 +133,4 @@ public class Commands implements CommandExecutor, TabCompleter {
         }
         return false;
     }
-
-
-    /**
-     * Tab
-     */
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equals("cblogger")) {
-            if (args.length == 1) {
-                return (sender.hasPermission("cblogger")
-                        ? Stream.of("save", "list", "search", "tp", "delete", "help")
-                        : Stream.of("save", "list", "search", "tp", "delete", "help"))
-                        .filter(e -> e.startsWith(args[0])).collect(Collectors.toList());
-            }
-            if (args.length == 2 && (args[0].equals("tp") || args[0].equals("delete"))) {
-                return (sender.hasPermission("cblogger")
-                        ? Stream.of("<id>")
-                        : Stream.of("<id>"))
-                        .filter(e -> e.startsWith(args[1])).collect(Collectors.toList());
-            }
-            if (args.length == 2 && args[0].equals("search")) {
-                return (sender.hasPermission("cblogger")
-                        ? Stream.of("<検索単語>")
-                        : Stream.of("<検索単語>"))
-                        .filter(e -> e.startsWith(args[1])).collect(Collectors.toList());
-            }
-        }
-        return new ArrayList<>();
-    }
-
-
 }
-

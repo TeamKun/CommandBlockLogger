@@ -1,5 +1,8 @@
-package net.kumc.lab.commandblocklogger;
+package net.kumc.lab.commandblocklogger.data;
 
+import net.kumc.lab.commandblocklogger.CommandBlockLogger;
+import net.kumc.lab.commandblocklogger.data.DataUtil;
+import net.kumc.lab.commandblocklogger.event.EventHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -26,7 +29,8 @@ public class CheckBlockData {
         new BukkitRunnable() {
             public void run() {
                 DataUtil.setCheckedData(CommandBlockLogger.allLog, CommandBlockLogger.placerData);
+                EventHandler.blockList = new ArrayList<>();
             }
-        }.runTaskTimer(CommandBlockLogger.INSTANCE, 0, 200);
+        }.runTaskTimer(CommandBlockLogger.INSTANCE, 600, 6000);
     }
 }
